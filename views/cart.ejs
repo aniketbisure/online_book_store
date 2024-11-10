@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4">Your Shopping Cart</h1>
+        <ul class="list-group mb-4">
+            <% cart.forEach(item => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1"><%= item.title %></h5>
+                        <p class="mb-0">Quantity: <%= item.qty %> | Price: Rs <%= item.price %> each</p>
+                    </div>
+                    <form action="/cart/remove" method="POST">
+                        <input type="hidden" name="bookId" value="<%= item.bookId %>">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Total: <%= cart.reduce((sum, item) => sum + (item.price * item.qty), 0) %> Rs</h4>
+            <form action="/checkout" method="POST" class="d-flex">
+                <input type="text" id="buyerName" name="buyerName" class="form-control me-2" placeholder="Your Name" required>
+                <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+            </form>
+        </div>
+        <a href="/" class="btn btn-primary">Continue Shopping</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
